@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="CapaDatos/CapaDatos.csproj" />
   <Project Path="CapaEntidades/CapaEntidades.csproj" />
+  <Project Path="CapaNegocio.Tests/CapaNegocio.Tests.csproj" />
   <Project Path="CapaNegocio/CapaNegocio.csproj" />
   <Project Path="CapaPresentacion/CapaPresentacion.csproj" />
 </Solution>

@@ -21,6 +21,18 @@ namespace CapaEntidades
         /// <summary>Nombre completo de la persona.</summary>
         public string Nombre { get; set; } = string.Empty;
 
+        /// <summary>Correo electrónico de contacto.</summary>
+        public string Correo { get; set; } = string.Empty;
+
+        /// <summary>Teléfono de contacto.</summary>
+        public string Telefono { get; set; } = string.Empty;
+
+        /// <summary>Rol que determina los módulos a los que tiene acceso.</summary>
+        public Rol Rol { get; set; }
+
+        /// <summary>Ficha de cliente asociada (solo usuarios con rol Cliente).</summary>
+        public int? IdCliente { get; set; }
+
         /// <summary>Indica si el usuario está activo (true) o inactivo (false).</summary>
         public bool Estado { get; set; }
 
