@@ -62,6 +62,12 @@ public partial class FrmLogin : Form, IVistaLogin
     private void chkMostrar_CheckedChanged(object sender, EventArgs e) =>
         txtPassword.UseSystemPasswordChar = !chkMostrar.Checked;
 
+    private void lnkCrearCuenta_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        using var registro = Servicios.CrearRegistro();
+        registro.ShowDialog(this);
+    }
+
     private void btnCerrar_Click(object sender, EventArgs e) => Application.Exit();
 
     private void FrmLogin_MouseDown(object sender, MouseEventArgs e) => Estilo.ArrastrarFormulario(this);

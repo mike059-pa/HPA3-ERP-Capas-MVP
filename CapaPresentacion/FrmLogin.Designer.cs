@@ -41,6 +41,7 @@ partial class FrmLogin
         btnIngresar = new Button();
         lblError = new Label();
         btnCerrar = new Button();
+        lnkCrearCuenta = new LinkLabel();
         errorProvider = new ErrorProvider(components);
         ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
         SuspendLayout();
@@ -70,7 +71,7 @@ partial class FrmLogin
         lblSubtitulo.Name = "lblSubtitulo";
         lblSubtitulo.Size = new Size(340, 20);
         lblSubtitulo.TabIndex = 2;
-        lblSubtitulo.Text = "HPA III · Login en Capas con MVP";
+        lblSubtitulo.Text = "HPA3 ERP · Capas con MVP";
         lblSubtitulo.TextAlign = ContentAlignment.MiddleCenter;
         //
         // lblUsuario
@@ -148,11 +149,25 @@ partial class FrmLogin
         // lblError
         //
         lblError.ForeColor = Color.FromArgb(255, 118, 117);
-        lblError.Location = new Point(20, 380);
+        lblError.Location = new Point(20, 376);
         lblError.Name = "lblError";
-        lblError.Size = new Size(340, 45);
+        lblError.Size = new Size(340, 34);
         lblError.TabIndex = 9;
         lblError.TextAlign = ContentAlignment.TopCenter;
+        //
+        // lnkCrearCuenta
+        //
+        lnkCrearCuenta.ActiveLinkColor = Color.White;
+        lnkCrearCuenta.LinkBehavior = LinkBehavior.HoverUnderline;
+        lnkCrearCuenta.LinkColor = Color.FromArgb(162, 155, 254);
+        lnkCrearCuenta.Location = new Point(20, 414);
+        lnkCrearCuenta.Name = "lnkCrearCuenta";
+        lnkCrearCuenta.Size = new Size(340, 20);
+        lnkCrearCuenta.TabIndex = 11;
+        lnkCrearCuenta.TabStop = true;
+        lnkCrearCuenta.Text = "¿No tienes cuenta? Crear cuenta de cliente";
+        lnkCrearCuenta.TextAlign = ContentAlignment.MiddleCenter;
+        lnkCrearCuenta.LinkClicked += lnkCrearCuenta_LinkClicked;
         //
         // btnCerrar
         //
@@ -182,7 +197,8 @@ partial class FrmLogin
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(30, 30, 45);
-        ClientSize = new Size(380, 440);
+        ClientSize = new Size(380, 450);
+        Controls.Add(lnkCrearCuenta);
         Controls.Add(btnCerrar);
         Controls.Add(lblError);
         Controls.Add(btnIngresar);
@@ -217,5 +233,6 @@ partial class FrmLogin
     private Button btnIngresar;
     private Label lblError;
     private Button btnCerrar;
+    private LinkLabel lnkCrearCuenta;
     private ErrorProvider errorProvider;
 }

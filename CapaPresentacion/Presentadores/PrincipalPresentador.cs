@@ -1,16 +1,15 @@
-using System.Globalization;
+using CapaNegocio;
 using CapaPresentacion.Sesion;
 using CapaPresentacion.Vistas;
 
 namespace CapaPresentacion.Presentadores;
 
 /// <summary>
-/// Presentador de la ventana principal: muestra la hora actual,
-/// el usuario en sesión y gestiona el cierre de sesión.
+/// Presentador de la ventana principal: arma el menú según el rol, muestra la hora,
+/// el usuario en sesión y gestiona la navegación y el cierre de sesión.
 /// </summary>
 public class PrincipalPresentador
 {
-    private static readonly CultureInfo Cultura = new("es-PA");
     private readonly IVistaPrincipal _vista;
 
     public PrincipalPresentador(IVistaPrincipal vista)
@@ -18,22 +17,38 @@ public class PrincipalPresentador
         _vista = vista;
         _vista.Cargar += (_, _) => Cargar();
         _vista.TickReloj += (_, _) => ActualizarReloj();
+        _vista.ModuloSeleccionado += (_, modulo) => Abrir(modulo);
         _vista.CerrarSesion += (_, _) => CerrarSesion();
     }
 
     private void Cargar()
     {
-        var usuario = SesionUsuario.Actual;
-        _vista.UsuarioSesion = usuario?.Usuario ?? "(sin sesión)";
-        _vista.NombreSesion = usuario?.Nombre ?? string.Empty;
+        var usuario = Soporte.Actor;
+        _vista.UsuarioSesion = usuario.Usuario;
+        _vista.NombreSesion = usuario.Nombre;
+        _vista.RolSesion = Soporte.NombreRol(usuario.Rol);
+        _vista.ContactoSesion = string.Join("\n",
+            new[] { usuario.Telefono, usuario.Correo }.Where(t => !string.IsNullOrWhiteSpace(t)));
+
+        _vista.MostrarModulos(Permisos.ModulosVisibles(usuario.Rol));
         ActualizarReloj();
+        Abrir(Modulo.Dashboard);
+    }
+
+    /// <summary>Verifica el permiso antes de abrir el módulo.</summary>
+    private void Abrir(Modulo modulo)
+    {
+        if (Permisos.PuedeVer(Soporte.Actor.Rol, modulo))
+            _vista.AbrirModulo(modulo);
+        else
+            _vista.MostrarAviso("No tiene permiso para abrir este módulo.");
     }
 
     private void ActualizarReloj()
     {
         var ahora = DateTime.Now;
-        _vista.Hora = ahora.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
-        _vista.Fecha = Cultura.TextInfo.ToTitleCase(ahora.ToString("dddd, dd 'de' MMMM yyyy", Cultura));
+        _vista.Hora = Soporte.Hora(ahora);
+        _vista.Fecha = Soporte.Fecha(ahora);
     }
 
     private void CerrarSesion()

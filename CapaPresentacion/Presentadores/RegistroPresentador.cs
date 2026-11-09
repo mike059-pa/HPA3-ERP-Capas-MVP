@@ -1,12 +1,11 @@
 using CapaNegocio;
-using CapaPresentacion.Sesion;
 using CapaPresentacion.Vistas;
 
 namespace CapaPresentacion.Presentadores;
 
 /// <summary>
-/// Presentador del registro: envía los datos a Negocio, que genera el hash
-/// (IHashService) antes de guardar en la capa de Datos.
+/// Presentador del auto‑registro: envía los datos a Negocio, que genera el hash
+/// (IHashService) y crea la cuenta con rol Cliente.
 /// </summary>
 public class RegistroPresentador
 {
@@ -17,24 +16,16 @@ public class RegistroPresentador
     {
         _vista = vista;
         _negocio = negocio;
-        _vista.Registrar += (_, _) => Registrar();
+        _vista.Registrar += (_, _) => Soporte.Ejecutar(Registrar, m => _vista.MostrarMensaje(m, false));
     }
 
     private void Registrar()
     {
-        try
-        {
-            var creadoPor = SesionUsuario.Actual?.Usuario ?? "Sistema";
-            var resultado = _negocio.Registrar(_vista.Usuario, _vista.Nombre,
-                _vista.Password, _vista.Confirmacion, creadoPor);
+        var resultado = _negocio.RegistrarCliente(_vista.Usuario, _vista.Nombre, _vista.Correo,
+            _vista.Telefono, _vista.Password, _vista.Confirmacion);
 
-            _vista.MostrarMensaje(resultado.Mensaje, resultado.Exito);
-            if (resultado.Exito)
-                _vista.Limpiar();
-        }
-        catch (Exception ex)
-        {
-            _vista.MostrarMensaje("Error al registrar: " + ex.Message, false);
-        }
+        _vista.MostrarMensaje(resultado.Mensaje, resultado.Exito);
+        if (resultado.Exito)
+            _vista.Limpiar();
     }
 }

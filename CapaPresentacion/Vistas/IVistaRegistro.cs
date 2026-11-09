@@ -1,6 +1,6 @@
 namespace CapaPresentacion.Vistas;
 
-/// <summary>Contrato de la Vista de registro de usuarios (MVP).</summary>
+/// <summary>Contrato de la Vista de auto‑registro de clientes (MVP).</summary>
 public interface IVistaRegistro
 {
     /// <summary>Nombre de usuario a registrar.</summary>
@@ -9,13 +9,19 @@ public interface IVistaRegistro
     /// <summary>Nombre completo de la persona.</summary>
     string Nombre { get; }
 
+    /// <summary>Correo electrónico (opcional).</summary>
+    string Correo { get; }
+
+    /// <summary>Teléfono (opcional).</summary>
+    string Telefono { get; }
+
     /// <summary>Contraseña en texto plano.</summary>
     string Password { get; }
 
     /// <summary>Confirmación de la contraseña.</summary>
     string Confirmacion { get; }
 
-    /// <summary>Se dispara cuando el usuario presiona "Registrar".</summary>
+    /// <summary>Se dispara cuando el usuario presiona "Crear cuenta".</summary>
     event EventHandler Registrar;
 
     /// <summary>Muestra el resultado de la operación.</summary>
